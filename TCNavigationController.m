@@ -264,7 +264,7 @@ NSString *const TCNavigationEdgeGestureEnableStatusKey = @"TCNavigationEdgeGestu
 
 - (void)pushViewController:(UIViewController *)viewController
 {
-    [self pushViewController:viewController completion:nil];
+    [self pushViewController:viewController animated:YES completion:nil];
 }
 
 - (void)popViewControllerCompletion:(TCNavigationControllerCompletionBlock)completion
