@@ -26,9 +26,9 @@ extern NSString *const TCNavigationEdgeGestureEnableStatusKey;
                   animated:(BOOL)animated
                 completion:(TCNavigationControllerCompletionBlock)completion;
 
-- (void)popViewController;
+- (void)popViewControllerAnimated:(BOOL)animated;
 
-- (void)popViewControllerCompletion:(TCNavigationControllerCompletionBlock)completion;
+- (void)popViewControllerAnimated:(BOOL)animated completion:(TCNavigationControllerCompletionBlock)completion;
 
 - (void)popToRootViewController;
 
@@ -41,3 +41,4 @@ extern NSString *const TCNavigationEdgeGestureEnableStatusKey;
 @property (nonatomic, strong) TCNavigationController *tcNavigationController;
 
 @end
+
