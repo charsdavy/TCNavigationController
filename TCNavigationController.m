@@ -166,7 +166,7 @@ NSString *const TCNavigationEdgeGestureEnableStatusKey = @"TCNavigationEdgeGestu
 - (void)completeSlidingAnimationWithDirection:(EdgeDirection)direction
 {
     if (direction == EdgeDirectionRight) {
-        [self popViewController];
+        [self popViewControllerAnimated:YES];
     } else {
         [self rollBackViewController];
     }
@@ -175,7 +175,7 @@ NSString *const TCNavigationEdgeGestureEnableStatusKey = @"TCNavigationEdgeGestu
 - (void)completeSlidingAnimationWithOffset:(CGFloat)offset
 {
     if (offset < [self viewBoundsWithOrientation:UIApplication.sharedApplication.statusBarOrientation].size.width * 0.5f) {
-        [self popViewController];
+        [self popViewControllerAnimated:YES];
     } else {
         [self rollBackViewController];
     }
@@ -267,7 +267,7 @@ NSString *const TCNavigationEdgeGestureEnableStatusKey = @"TCNavigationEdgeGestu
     [self pushViewController:viewController animated:YES completion:nil];
 }
 
-- (void)popViewControllerCompletion:(TCNavigationControllerCompletionBlock)completion
+- (void)popViewControllerAnimated:(BOOL)animated completion:(TCNavigationControllerCompletionBlock)completion
 {
     if (self.viewControllers.count < 2) return;
     
@@ -281,7 +281,12 @@ NSString *const TCNavigationEdgeGestureEnableStatusKey = @"TCNavigationEdgeGestu
     currentVC.view.layer.shadowOpacity = TCShadowOpacity;
     currentVC.view.layer.shadowRadius  = TCShadowRadius;
     
-    [UIView animateWithDuration:TCAnimationDuration delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+    CGFloat duration = TCAnimationDuration;
+    if (!animated) {
+        duration = 0.001;
+    }
+    
+    [UIView animateWithDuration:duration delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         currentVC.view.frame = CGRectOffset(self.view.bounds, self.view.bounds.size.width, 0);
         CGAffineTransform transf = CGAffineTransformIdentity;
         previousVC.view.transform = CGAffineTransformScale(transf, 1.0f, 1.0f);
@@ -305,9 +310,9 @@ NSString *const TCNavigationEdgeGestureEnableStatusKey = @"TCNavigationEdgeGestu
     }];
 }
 
-- (void)popViewController
+- (void)popViewControllerAnimated:(BOOL)animated
 {
-    [self popViewControllerCompletion:nil];
+    [self popViewControllerAnimated:YES completion:nil];
 }
 
 - (void)popToViewController:(UIViewController *)toViewController
@@ -324,7 +329,7 @@ NSString *const TCNavigationEdgeGestureEnableStatusKey = @"TCNavigationEdgeGestu
         [controllers removeObject:needRemoveViewController];
     }
     
-    [self popViewController];
+    [self popViewControllerAnimated:YES];
 }
 
 - (void)popToRootViewController
@@ -373,3 +378,4 @@ NSString *const TCNavigationEdgeGestureEnableStatusKey = @"TCNavigationEdgeGestu
 }
 
 @end
+
