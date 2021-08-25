@@ -221,7 +221,7 @@ NSString *const TCNavigationEdgeGestureEnableStatusKey = @"TCNavigationEdgeGestu
     self.blackMask.alpha = newAlphaValue;
 }
 
-- (void)pushViewController:(UIViewController *)viewController completion:(TCNavigationControllerCompletionBlock)completion
+- (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated completion:(TCNavigationControllerCompletionBlock)completion
 {
     self.animationing = YES;
     
@@ -238,7 +238,12 @@ NSString *const TCNavigationEdgeGestureEnableStatusKey = @"TCNavigationEdgeGestu
     [self.view bringSubviewToFront:self.blackMask];
     [self.view addSubview:viewController.view];
     
-    [UIView animateWithDuration:TCAnimationDuration delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+    CGFloat duration = TCAnimationDuration;
+    if (!animated) {
+        duration = 0.001;
+    }
+    
+    [UIView animateWithDuration:duration delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         CGAffineTransform transf = CGAffineTransformIdentity;
         [self currentViewController].view.transform = CGAffineTransformScale(transf, TCZoomRatio, TCZoomRatio);
         viewController.view.frame = self.view.bounds;
