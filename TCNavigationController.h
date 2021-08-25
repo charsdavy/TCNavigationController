@@ -23,6 +23,7 @@ extern NSString *const TCNavigationEdgeGestureEnableStatusKey;
 - (void)pushViewController:(UIViewController *)viewController;
 
 - (void)pushViewController:(UIViewController *)viewController
+                  animated:(BOOL)animated
                 completion:(TCNavigationControllerCompletionBlock)completion;
 
 - (void)popViewController;
